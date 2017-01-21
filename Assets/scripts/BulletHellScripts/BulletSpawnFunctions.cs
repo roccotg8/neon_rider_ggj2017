@@ -38,8 +38,8 @@ public class BulletSpawnFunctions : MonoBehaviour {
 
         for (int i = 0; i < numBuls; i++) {
             double myAngle = minarc + degreesPerBul * i;
-            Vector3 spawnPos = new Vector3((float)(basePosition.x + radius * Mathf.Cos((float)(myAngle * Mathf.Deg2Rad))),
-                (float)(basePosition.y + radius * Mathf.Sin((float)(myAngle * Mathf.Deg2Rad))), 0);
+            Vector3 spawnPos = new Vector3((float)(basePosition.x + radius * Mathf.Cos((float)((myAngle + baseAngle) * Mathf.Deg2Rad))),
+                (float)(basePosition.y + radius * Mathf.Sin((float)((myAngle + baseAngle) * Mathf.Deg2Rad))), 0);
             
             GameObject bullet = Instantiate(Resources.Load("BulletPrefab"), spawnPos, Quaternion.identity) as GameObject;
             Bullet bulletScr = bullet.GetComponent<Bullet>();

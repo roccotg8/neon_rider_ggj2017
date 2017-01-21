@@ -15,6 +15,7 @@ public class BulletEmitterGroup : MonoBehaviour {
     void FixedUpdate() {
         foreach (BulletEmitter emit in myEmitters) {
             emit.FixedUpdate();
+            emit.setEmitPosition(gameObject.transform.position);
         }
     }
 

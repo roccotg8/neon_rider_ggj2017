@@ -18,6 +18,7 @@ public class BulletEmitter {
     private int totalLifeTime = -1;
     private int emitTimer = 0;
     private int nextEmit = 0;
+    private bool paused = false;
 
     public BulletEmitter(BulletProperties bulletType, SpawnFunction spawnMethod) {
         this.bulletType = bulletType;
@@ -25,6 +26,7 @@ public class BulletEmitter {
     }
 
     public void Init() {
+        lifeTime = 0;
         if (timeToLive != null)
             totalLifeTime = (int)timeToLive.getValue();
         nextEmit = (int)timePerEmit.getValue();
@@ -42,13 +44,27 @@ public class BulletEmitter {
         emissionAngle = rot;
     }
 
+    public void reset() {
+        lifeTime = 0;
+    }
+
+    public void pause() {
+        paused = true;
+    }
+
+    public void resume() {
+        paused = false;
+    }
+
     public void FixedUpdate() {
         // Stop emitting after time.
-        lifeTime += 1;
+        if (!paused)
+            lifeTime += 1;
         if (totalLifeTime > 0 && lifeTime >= totalLifeTime) { return; }
 
         // Emit bullet(s) after time.
-        emitTimer += 1;
+        if (!paused)
+            emitTimer += 1;
         if (emitTimer >= nextEmit) {
             spawnMethod(bulletType, emissionPosition, emissionAngle, spawnMethodParams);
             nextEmit = (int)timePerEmit.getValue();
