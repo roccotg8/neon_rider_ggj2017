@@ -6,12 +6,10 @@ using UnityEngine;
 public class OstritchStuff : MonoBehaviour
 {
 
-    // Use this for initialization
-
-    public GameObject player;
     public Collider2D enemy1;
     //public GameObject EnemyOne;
     //float playerSpeed = 6.0f;
+    GameObject Target;
     Vector2 playerSpeed;
     Vector2 mySpeed;
     float speedDiff;
@@ -19,6 +17,10 @@ public class OstritchStuff : MonoBehaviour
     float x;
     //public float ostrichSpeed;
 
+    void Awake()
+    {
+        Target = GameObject.FindGameObjectWithTag("Node");
+    }
 
     void Start()
     {
@@ -37,19 +39,22 @@ public class OstritchStuff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerSpeed = player.transform.position;
-        mySpeed = transform.position;
+        //playerSpeed = player.transform.position;
+        //mySpeed = enemy1.transform.position;
         //speedDiff = Vector2.Distance(playerSpeed, mySpeed);
-        transform.Translate(x, 0, 0);
+        if (!(Target.transform.position.x - enemy1.transform.position.x <= 0.5f))
+        {
+            transform.Translate(x, 0, 0);
+        }
 
 
 
-        speedDiff = mySpeed.x - playerSpeed.x;
+        //speedDiff = mySpeed.x - playerSpeed.x;
 
 
 
 
-        Debug.Log(speedDiff);
+        //Debug.Log(speedDiff);
 
 
         //if playerSpeed==mySpeed or less than that than go faster 
@@ -62,12 +67,12 @@ public class OstritchStuff : MonoBehaviour
         //ostritchSpeed = playerSpeed * 0.9f;
 
 
-        if(speedDiff > 3f)
-        {
-            //float x = playerSpeed.x * 1.0f;
-            x = Time.deltaTime * 0.6f;
-            enemy1.enabled = true;
+        //if(speedDiff > 5f)
+        //{
+        //    //float x = playerSpeed.x * 1.0f;
+        //    x = Time.deltaTime * 0.6f;
+        //    enemy1.enabled = true;
 
-        }
+        //}
     }
 }
