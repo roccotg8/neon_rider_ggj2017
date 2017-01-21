@@ -30,6 +30,10 @@ public class BulletEmitter {
         nextEmit = (int)timePerEmit.getValue();
     }
 
+    public void overwriteNextEmit(int next) {
+        nextEmit = next;
+    }
+
     public void setEmitPosition(Vector3 newPos) {
         emissionPosition = newPos;
     }

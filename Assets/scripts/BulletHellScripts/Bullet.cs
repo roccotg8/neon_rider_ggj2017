@@ -30,6 +30,10 @@ public class Bullet : MonoBehaviour {
             render.enabled = false;
         if (myProperties.childEmitter != null)
             myChildEmitter = myProperties.childEmitter.clone();
+        if (rotateController is ValueUpdateHoming) {
+            ValueUpdateHoming cast = (ValueUpdateHoming)rotateController;
+            cast.mySourceObject = gameObject;
+        }
     }
 	
 	// Update is called once per frame
