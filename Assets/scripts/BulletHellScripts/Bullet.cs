@@ -56,6 +56,13 @@ public class Bullet : MonoBehaviour {
         newPosition.y = (float)(gameObject.transform.position.y + rotDeltaY);
         lastRelX = relX;
         lastRelY = relY;
+
+        // Have bullets face the direction they are moving.
+        Vector3 diff = newPosition - transform.position;
+        diff.Normalize();
+        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+
         gameObject.transform.position = newPosition;
 
         if (myChildEmitter != null) {
