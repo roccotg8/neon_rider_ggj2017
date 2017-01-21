@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,6 +64,10 @@ public class ValueUpdatePVA : ValueUpdateInterface {
 
     public override double getValue() {
         return cur_vo;
+    }
+
+    public override void setValue(double value) {
+        cur_vo += value;
     }
 
     public override ValueUpdateInterface getClone() {

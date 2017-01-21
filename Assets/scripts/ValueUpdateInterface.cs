@@ -8,5 +8,6 @@ public abstract class ValueUpdateInterface {
     public abstract double getValue();
     public abstract void FixedUpdate();
     public abstract ValueUpdateInterface getClone();
+    public abstract void setValue(double value);
 
 }
