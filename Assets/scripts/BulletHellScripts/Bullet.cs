@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public BulletProperties myProperties;
+    public BulletEmitter myChildEmitter = null;
     public ValueUpdateInterface xController;
     public ValueUpdateInterface yController;
     public ValueUpdateInterface rotateController;
@@ -22,6 +23,13 @@ public class Bullet : MonoBehaviour {
         xController = myProperties.xMotion.getClone();
         yController = myProperties.yMotion.getClone();
         rotateController = myProperties.rotMotion.getClone();
+        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
+        if (myProperties.myImage != null)
+            render.sprite = myProperties.myImage;
+        else
+            render.enabled = false;
+        if (myProperties.childEmitter != null)
+            myChildEmitter = myProperties.childEmitter.clone();
     }
 	
 	// Update is called once per frame
@@ -49,5 +57,11 @@ public class Bullet : MonoBehaviour {
         lastRelX = relX;
         lastRelY = relY;
         gameObject.transform.position = newPosition;
+
+        if (myChildEmitter != null) {
+            myChildEmitter.FixedUpdate();
+            myChildEmitter.setEmitPosition(gameObject.transform.position);
+            myChildEmitter.setEmitRotation(rotateController.getValue());
+        }
     }
 }

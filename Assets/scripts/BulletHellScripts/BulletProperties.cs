@@ -9,6 +9,7 @@ public class BulletProperties {
     public ValueUpdateInterface rotMotion; // How the bullet should rotate.
     public BulletEmitter childEmitter = null; // Should this bullet also emit bullets? If so, this defines the emission behavior.
     public RangeValue timeToLiveBullet = new RangeValue(10); // How long the bullet should stay in the scene for.
+    public Sprite myImage = null; //The image for the bullet.
 
     public BulletProperties(ValueUpdateInterface horMethod, ValueUpdateInterface vertMethod, ValueUpdateInterface rotationMethod) {
         this.xMotion = horMethod;

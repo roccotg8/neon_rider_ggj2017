@@ -20,6 +20,8 @@ public class BulletEmitterGroup : MonoBehaviour {
 
     public void addEmitter(BulletEmitter emit) {
         emit.Init();
+        emit.setEmitPosition(gameObject.transform.position);
+        emit.setEmitRotation(0);
         myEmitters.Add(emit);
     }
 }

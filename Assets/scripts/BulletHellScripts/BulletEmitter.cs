@@ -7,27 +7,35 @@ using UnityEngine;
 public class BulletEmitter {
     public RangeValue timeToLive = null; // How long this will emit for (null to emit forever)
     public RangeValue timePerEmit = new RangeValue(10);
-    public delegate void SpawnFunction(BulletProperties spawnProperties, Transform basePosition, Arguments arg); // How should bullets be spawned when it is time to emit?
+    public delegate void SpawnFunction(BulletProperties spawnProperties, Vector3 basePosition, double baseAngle, Arguments arg); // How should bullets be spawned when it is time to emit?
     SpawnFunction spawnMethod;
     public Arguments spawnMethodParams = new Arguments();
     public BulletProperties bulletType; // The properties of the bullet that should be spawned by this emitter.
-    public GameObject parentObject; // The game object (enemy) that this emitter is being used by.
 
+    private Vector3 emissionPosition = new Vector3();
+    private double emissionAngle = 0;
     private int lifeTime = 0;
     private int totalLifeTime = -1;
     private int emitTimer = 0;
     private int nextEmit = 0;
 
-    public BulletEmitter(BulletProperties bulletType, SpawnFunction spawnMethod, GameObject parentObject) {
+    public BulletEmitter(BulletProperties bulletType, SpawnFunction spawnMethod) {
         this.bulletType = bulletType;
         this.spawnMethod = spawnMethod;
-        this.parentObject = parentObject;
     }
 
     public void Init() {
         if (timeToLive != null)
             totalLifeTime = (int)timeToLive.getValue();
         nextEmit = (int)timePerEmit.getValue();
+    }
+
+    public void setEmitPosition(Vector3 newPos) {
+        emissionPosition = newPos;
+    }
+
+    public void setEmitRotation(double rot) {
+        emissionAngle = rot;
     }
 
     public void FixedUpdate() {
@@ -38,9 +46,18 @@ public class BulletEmitter {
         // Emit bullet(s) after time.
         emitTimer += 1;
         if (emitTimer >= nextEmit) {
-            spawnMethod(bulletType, parentObject.transform, spawnMethodParams);
+            spawnMethod(bulletType, emissionPosition, emissionAngle, spawnMethodParams);
             nextEmit = (int)timePerEmit.getValue();
             emitTimer = 0;
         }
+    }
+
+    public BulletEmitter clone() {
+        BulletEmitter cloneEmit = new BulletEmitter(bulletType, spawnMethod);
+        cloneEmit.timeToLive = timeToLive;
+        cloneEmit.timePerEmit = timePerEmit;
+        cloneEmit.spawnMethodParams = spawnMethodParams;
+        cloneEmit.Init();
+        return cloneEmit;
     }
 }
