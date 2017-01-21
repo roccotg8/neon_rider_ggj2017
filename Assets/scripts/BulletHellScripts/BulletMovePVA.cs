@@ -83,22 +83,22 @@ public class BulletMovePVA : BulletMoveInterface {
         cur_ya = yAccel.getValue();
     }
 
-    public new void FixedUpdate() {
+    public override void FixedUpdate() {
         cur_xo += cur_xv;
         cur_yo += cur_yv;
         cur_xv += cur_xa;
         cur_yv += cur_ya;
 	}
 
-    public new double getXOff() {
+    public override double getXOff() {
         return cur_xo;
     }
 
-    public new double getYOff() {
+    public override double getYOff() {
         return cur_yo;
     }
 
-    public new BulletMoveInterface getClone() {
+    public override BulletMoveInterface getClone() {
         return new BulletMovePVA(xOffset, yOffset, xVelo, yVelo, xAccel, yAccel);
     }
 }

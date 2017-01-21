@@ -7,7 +7,8 @@ using UnityEngine;
 public class BulletEmitter {
     public RangeValue timeToLive = null; // How long this will emit for (null to emit forever)
     public RangeValue timePerEmit = new RangeValue(10);
-    public BulletSpawnInterface spawnMethod; // How should bullets be spawned when it is time to emit?
+    public delegate void SpawnFunction(BulletProperties spawnProperties, Transform basePosition); // How should bullets be spawned when it is time to emit?
+    SpawnFunction spawnMethod;
     public BulletProperties bulletType; // The properties of the bullet that should be spawned by this emitter.
     public GameObject parentObject; // The game object (enemy) that this emitter is being used by.
 
@@ -16,7 +17,7 @@ public class BulletEmitter {
     private int emitTimer = 0;
     private int nextEmit = 0;
 
-    public BulletEmitter(BulletProperties bulletType, BulletSpawnInterface spawnMethod, GameObject parentObject) {
+    public BulletEmitter(BulletProperties bulletType, SpawnFunction spawnMethod, GameObject parentObject) {
         this.bulletType = bulletType;
         this.spawnMethod = spawnMethod;
         this.parentObject = parentObject;
@@ -36,7 +37,7 @@ public class BulletEmitter {
         // Emit bullet(s) after time.
         emitTimer += 1;
         if (emitTimer >= nextEmit) {
-            spawnMethod.spawnBullets(bulletType, parentObject.transform);
+            spawnMethod(bulletType, parentObject.transform);
             nextEmit = (int)timePerEmit.getValue();
             emitTimer = 0;
         }
