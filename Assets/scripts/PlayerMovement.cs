@@ -57,8 +57,16 @@ public class PlayerMovement : MonoBehaviour {
             //anim.SetTrigger("Jump");
 
             //add vertical force to the player
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
-            Debug.Log("jump");
+            if (standingUp)
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
+                Debug.Log("jump");
+            }
+            else if(!standingUp)
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, -1 * jumpForce));
+                Debug.Log("jump");
+            }
             //prevent the player from jumping until the jump conditions from Update are satisfied
             grounded = false;
             jumpCount++;
@@ -74,6 +82,10 @@ public class PlayerMovement : MonoBehaviour {
         standingUp = !standingUp;
         Debug.Log("flipped around");
 
+        //inverts gravity for the player
+        GetComponent<Rigidbody2D>().gravityScale *= -1;
+
+        //flips the player
         theScale = transform.localScale;
         theScale.y *= -1;
         transform.localScale = theScale;
